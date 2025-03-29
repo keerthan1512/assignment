@@ -10,6 +10,27 @@ export default function UserEditModal({ user, onClose, onUpdate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!formData.first_name) {
+      toast.error('Please enter the first name.');
+      return;
+    }
+
+    if (!formData.last_name) {
+      toast.error('Please enter the last name.');
+      return;
+    }
+
+    if (!formData.email) {
+      toast.error('Please enter the email address.');
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+
     onUpdate({ ...user, ...formData });
   };
 

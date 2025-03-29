@@ -4,10 +4,9 @@ import { toast } from 'react-hot-toast';
 import { LogIn } from 'lucide-react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
-import type { LoginCredentials, LoginResponse } from '../types/user';
 
 export default function LoginForm() {
-  const [credentials, setCredentials] = useState<LoginCredentials>({
+  const [credentials, setCredentials] = useState({
     email: '',
     password: '',
   });
@@ -15,12 +14,28 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!credentials.email) {
+      toast.error('Please enter your email address.');
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credentials.email)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+
+    if (!credentials.password) {
+      toast.error('Please enter your password.');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const response = await api.post<LoginResponse>('/login', credentials);
+      const response = await api.post('/login', credentials);
       login(response.data.token);
       toast.success('Login successful!');
       navigate('/users');
