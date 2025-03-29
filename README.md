@@ -84,6 +84,3 @@ This project can be easily deployed to free hosting services like Netlify or Ver
     vercel deploy --prod --prebuilt
     ```
 
-Here is the deployment link:
-
-[Deployment Link](https://assignment-mu-black.vercel.app/login)
